@@ -221,3 +221,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node / Vite
+node_modules/
+frontend/dist/
+.vite/
+
+# 运行期产物
+backend/storage/results/*
+!backend/storage/results/.gitkeep
+backend/storage/datasets/*
+!backend/storage/datasets/.gitkeep
+backend/pretrain/*
+!backend/pretrain/.gitkeep
