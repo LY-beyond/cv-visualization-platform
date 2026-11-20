@@ -234,3 +234,7 @@ backend/storage/datasets/*
 !backend/storage/datasets/.gitkeep
 backend/pretrain/*
 !backend/pretrain/.gitkeep
+
+# 外部参考资料与课程实验原始素材（体积大，不入库）
+/reference/
+/实验项目/
