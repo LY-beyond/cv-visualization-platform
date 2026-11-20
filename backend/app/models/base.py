@@ -36,6 +36,16 @@ class BaseModelHandler(ABC):
     def build(self, **kwargs: Any) -> Any:
         """按配置构建模型。"""
 
+    def epochs_for(self, hyperparams: Dict[str, Any]) -> int:
+        """预估本次训练会推送的指标点数量，用于进度条计算。
+
+        默认读取 epochs 超参数；聚类与两阶段流程按自身迭代轮数覆盖。
+        """
+        try:
+            return max(1, int(hyperparams.get("epochs", 1)))
+        except (TypeError, ValueError):
+            return 1
+
     def train(
         self,
         dataset: BaseDataset,

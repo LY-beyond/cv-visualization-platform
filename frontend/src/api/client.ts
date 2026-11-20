@@ -5,9 +5,11 @@ import type {
   CaseMeta,
   CaseOutput,
   CaseRequest,
+  ComparisonItem,
   DatasetDetail,
   DatasetMeta,
   EvaluationResult,
+  MetricPoint,
   ModelMeta,
   SampleList,
   TrainRequest,
@@ -95,7 +97,13 @@ export const api = {
       }),
     list: () => request<TrainTaskInfo[]>("/training/tasks"),
     detail: (id: string) => request<TrainTaskInfo>(`/training/tasks/${id}`),
+    comparison: (datasetId: string) =>
+      request<ComparisonItem[]>(`/training/comparison${query({ dataset_id: datasetId })}`),
     evaluation: (id: string) => request<EvaluationResult>(`/training/tasks/${id}/evaluation`),
+    history: (id: string) =>
+      request<{ task_id: string; metrics: MetricPoint[]; evaluation: EvaluationResult | null }>(
+        `/training/tasks/${id}/history`,
+      ),
     eventsUrl: (id: string) => `${API_BASE}/training/tasks/${id}/events`,
   },
 };

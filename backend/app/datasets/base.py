@@ -22,8 +22,10 @@ class BaseDataset(ABC):
 
     def detail(self) -> DatasetDetail:
         splits = self.split_sizes()
+        payload = self.meta.model_dump()
+        payload["sample_count"] = sum(splits.values())
         return DatasetDetail(
-            **self.meta.model_dump(),
+            **payload,
             splits=splits,
             notes=[
                 "样本按类别分目录存放，配套 manifest.json 记录路径与标签。",
@@ -32,7 +34,14 @@ class BaseDataset(ABC):
         )
 
     def split_sizes(self) -> Dict[str, int]:
-        return {}
+        payload = self._manifest()
+        return {
+            name: len(items) for name, items in payload.get("splits", {}).items()
+        }
+
+    def samples(self, split: str = "train") -> List[dict]:
+        """返回指定划分的原始样本记录，供训练与评估读取。"""
+        return self._samples(split)
 
     def list_samples(self, split: str = "train", offset: int = 0, limit: int = 24) -> SampleList:
         items = self._samples(split)
@@ -41,7 +50,10 @@ class BaseDataset(ABC):
             dataset_id=self.meta.id,
             split=split,
             total=len(items),
-            items=[self._to_ref(split, index, raw) for index, raw in page],
+            items=[
+                self._to_ref(split, offset + position, raw)
+                for position, raw in enumerate(page)
+            ],
         )
 
     def get_sample(self, index: int, split: str = "train") -> SampleRef:
@@ -65,12 +77,14 @@ class BaseDataset(ABC):
             raise NotFoundError(f"样本图片尚未准备: {path.name}")
         return path
 
-    def _samples(self, split: str) -> List[dict]:
+    def _manifest(self) -> dict:
         manifest_path = dataset_manifest(self.meta.id)
         if not manifest_path.exists():
-            return []
-        payload = json.loads(manifest_path.read_text(encoding="utf-8"))
-        return payload.get("splits", {}).get(split, [])
+            return {}
+        return json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    def _samples(self, split: str) -> List[dict]:
+        return self._manifest().get("splits", {}).get(split, [])
 
     def _to_ref(self, split: str, index: int, raw: dict) -> SampleRef:
         label = raw.get("label")

@@ -1,0 +1,370 @@
+{
+  "model": "Mask R-CNN（ResNet-101-FPN，COCO 官方权重）",
+  "image": "mask_rcnn_12283150_12d37e6389_z.jpg",
+  "count": 33,
+  "detections": [
+    {
+      "label": "car",
+      "confidence": 0.997615,
+      "box": [
+        374,
+        246,
+        429,
+        293
+      ],
+      "mask_pixels": 2017
+    },
+    {
+      "label": "traffic light",
+      "confidence": 0.995259,
+      "box": [
+        326,
+        140,
+        350,
+        195
+      ],
+      "mask_pixels": 993
+    },
+    {
+      "label": "person",
+      "confidence": 0.994543,
+      "box": [
+        155,
+        207,
+        168,
+        232
+      ],
+      "mask_pixels": 146
+    },
+    {
+      "label": "car",
+      "confidence": 0.994508,
+      "box": [
+        139,
+        283,
+        231,
+        364
+      ],
+      "mask_pixels": 5639
+    },
+    {
+      "label": "traffic light",
+      "confidence": 0.990993,
+      "box": [
+        272,
+        166,
+        282,
+        192
+      ],
+      "mask_pixels": 190
+    },
+    {
+      "label": "car",
+      "confidence": 0.987516,
+      "box": [
+        473,
+        237,
+        500,
+        274
+      ],
+      "mask_pixels": 609
+    },
+    {
+      "label": "car",
+      "confidence": 0.986598,
+      "box": [
+        0,
+        238,
+        34,
+        284
+      ],
+      "mask_pixels": 1292
+    },
+    {
+      "label": "traffic light",
+      "confidence": 0.986279,
+      "box": [
+        455,
+        181,
+        466,
+        208
+      ],
+      "mask_pixels": 201
+    },
+    {
+      "label": "car",
+      "confidence": 0.985992,
+      "box": [
+        287,
+        226,
+        318,
+        254
+      ],
+      "mask_pixels": 635
+    },
+    {
+      "label": "traffic light",
+      "confidence": 0.978013,
+      "box": [
+        306,
+        278,
+        319,
+        306
+      ],
+      "mask_pixels": 281
+    },
+    {
+      "label": "car",
+      "confidence": 0.974598,
+      "box": [
+        328,
+        227,
+        352,
+        251
+      ],
+      "mask_pixels": 442
+    },
+    {
+      "label": "traffic light",
+      "confidence": 0.974037,
+      "box": [
+        328,
+        277,
+        342,
+        304
+      ],
+      "mask_pixels": 291
+    },
+    {
+      "label": "traffic light",
+      "confidence": 0.971123,
+      "box": [
+        298,
+        141,
+        323,
+        194
+      ],
+      "mask_pixels": 1130
+    },
+    {
+      "label": "traffic light",
+      "confidence": 0.962584,
+      "box": [
+        254,
+        165,
+        268,
+        190
+      ],
+      "mask_pixels": 285
+    },
+    {
+      "label": "car",
+      "confidence": 0.94754,
+      "box": [
+        272,
+        223,
+        297,
+        249
+      ],
+      "mask_pixels": 327
+    },
+    {
+      "label": "person",
+      "confidence": 0.939418,
+      "box": [
+        409,
+        217,
+        419,
+        243
+      ],
+      "mask_pixels": 171
+    },
+    {
+      "label": "person",
+      "confidence": 0.930142,
+      "box": [
+        25,
+        198,
+        42,
+        243
+      ],
+      "mask_pixels": 460
+    },
+    {
+      "label": "car",
+      "confidence": 0.920264,
+      "box": [
+        256,
+        212,
+        278,
+        230
+      ],
+      "mask_pixels": 210
+    },
+    {
+      "label": "person",
+      "confidence": 0.893644,
+      "box": [
+        188,
+        199,
+        195,
+        214
+      ],
+      "mask_pixels": 57
+    },
+    {
+      "label": "person",
+      "confidence": 0.884128,
+      "box": [
+        446,
+        213,
+        455,
+        238
+      ],
+      "mask_pixels": 88
+    },
+    {
+      "label": "person",
+      "confidence": 0.87008,
+      "box": [
+        423,
+        219,
+        433,
+        244
+      ],
+      "mask_pixels": 161
+    },
+    {
+      "label": "person",
+      "confidence": 0.868779,
+      "box": [
+        400,
+        215,
+        410,
+        239
+      ],
+      "mask_pixels": 122
+    },
+    {
+      "label": "traffic light",
+      "confidence": 0.859789,
+      "box": [
+        361,
+        183,
+        370,
+        200
+      ],
+      "mask_pixels": 108
+    },
+    {
+      "label": "person",
+      "confidence": 0.858471,
+      "box": [
+        416,
+        222,
+        423,
+        242
+      ],
+      "mask_pixels": 70
+    },
+    {
+      "label": "traffic light",
+      "confidence": 0.848978,
+      "box": [
+        244,
+        172,
+        253,
+        187
+      ],
+      "mask_pixels": 98
+    },
+    {
+      "label": "car",
+      "confidence": 0.841092,
+      "box": [
+        103,
+        211,
+        129,
+        233
+      ],
+      "mask_pixels": 432
+    },
+    {
+      "label": "person",
+      "confidence": 0.835473,
+      "box": [
+        222,
+        198,
+        232,
+        215
+      ],
+      "mask_pixels": 85
+    },
+    {
+      "label": "car",
+      "confidence": 0.833588,
+      "box": [
+        174,
+        196,
+        187,
+        206
+      ],
+      "mask_pixels": 99
+    },
+    {
+      "label": "car",
+      "confidence": 0.813636,
+      "box": [
+        284,
+        212,
+        303,
+        222
+      ],
+      "mask_pixels": 119
+    },
+    {
+      "label": "person",
+      "confidence": 0.789897,
+      "box": [
+        432,
+        206,
+        441,
+        238
+      ],
+      "mask_pixels": 152
+    },
+    {
+      "label": "car",
+      "confidence": 0.748806,
+      "box": [
+        283,
+        217,
+        305,
+        228
+      ],
+      "mask_pixels": 150
+    },
+    {
+      "label": "car",
+      "confidence": 0.734824,
+      "box": [
+        281,
+        207,
+        300,
+        217
+      ],
+      "mask_pixels": 101
+    },
+    {
+      "label": "traffic light",
+      "confidence": 0.707666,
+      "box": [
+        48,
+        165,
+        57,
+        192
+      ],
+      "mask_pixels": 172
+    }
+  ]
+}

@@ -63,3 +63,17 @@ class EvaluationResult(BaseModel):
     class_names: List[str] = Field(default_factory=list)
     error_samples: List[ErrorSample] = Field(default_factory=list)
     embedding: List[Dict[str, Any]] = Field(default_factory=list)
+
+
+class ComparisonItem(BaseModel):
+    """同一数据集上各模型的最近一次评估，用于横向对比。"""
+
+    task_id: str
+    model_id: str
+    model_name: str
+    params: str = ""
+    accuracy: Optional[float] = None
+    top5_accuracy: Optional[float] = None
+    confusion_matrix: List[List[int]] = Field(default_factory=list)
+    class_names: List[str] = Field(default_factory=list)
+    finished_at: Optional[str] = None

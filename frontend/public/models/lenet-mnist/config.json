@@ -1,0 +1,48 @@
+{
+  "name": "LeNet-5 手写数字（实验三教师模型）",
+  "task": "classification",
+  "inputSize": [
+    28,
+    28
+  ],
+  "layout": "NCHW",
+  "channels": 1,
+  "mean": [
+    0.0
+  ],
+  "std": [
+    1.0
+  ],
+  "labels": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+  ],
+  "preprocess": "灰度 → 28×28 → /255；MNIST 原图为黑底白字",
+  "source": "实验项目/第三次上机实验/上机练习2/lenet/pretrained/LeNet-teacher.keras",
+  "weights": "weights.bin",
+  "weightsOrder": [
+    "conv1.weight",
+    "conv1.bias",
+    "conv2.weight",
+    "conv2.bias",
+    "fc1.weight",
+    "fc1.bias",
+    "fc2.weight",
+    "fc2.bias",
+    "fc3.weight",
+    "fc3.bias"
+  ],
+  "metrics": {
+    "test_accuracy": 0.9812,
+    "params": 61706
+  },
+  "note": "结构与 Keras 配置逐层一致：C6(pad=2)-AP2-C16-AP2-F120-F84-F10，激活 tanh，输出 softmax。网页端用纯 JS 前向执行。"
+}

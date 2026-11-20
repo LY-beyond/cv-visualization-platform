@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "models": [
+    {
+      "id": "yolov8n",
+      "task": "detection",
+      "name": "YOLOv8n 目标检测",
+      "dir": "detection",
+      "hint": "将导出的 yolov8n.onnx 放入 public/models/detection/，刷新后自动启用",
+      "license": "遵循上游 Ultralytics 许可，仅用于教学演示"
+    },
+    {
+      "id": "segformer",
+      "task": "segmentation",
+      "name": "SegFormer 语义分割",
+      "dir": "segmentation",
+      "hint": "将导出的 segformer.onnx 放入 public/models/segmentation/，刷新后自动启用",
+      "license": "遵循上游模型许可，仅用于教学演示"
+    }
+  ]
+}

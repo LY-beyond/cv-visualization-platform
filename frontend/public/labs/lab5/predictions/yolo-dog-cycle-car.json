@@ -1,0 +1,37 @@
+{
+  "model": "YOLO v3（Darknet-53，COCO 官方权重）",
+  "image": "dog-cycle-car.jpg",
+  "count": 3,
+  "detections": [
+    {
+      "label": "bicycle",
+      "confidence": 0.9937,
+      "box": [
+        87.0,
+        104.0,
+        453.0,
+        336.0
+      ]
+    },
+    {
+      "label": "truck",
+      "confidence": 0.883502,
+      "box": [
+        372.0,
+        69.0,
+        542.0,
+        131.0
+      ]
+    },
+    {
+      "label": "dog",
+      "confidence": 0.999602,
+      "box": [
+        98.0,
+        178.0,
+        253.0,
+        420.0
+      ]
+    }
+  ]
+}

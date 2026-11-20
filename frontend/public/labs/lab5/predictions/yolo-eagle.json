@@ -1,0 +1,17 @@
+{
+  "model": "YOLO v3（Darknet-53，COCO 官方权重）",
+  "image": "eagle.jpg",
+  "count": 1,
+  "detections": [
+    {
+      "label": "bird",
+      "confidence": 0.98925,
+      "box": [
+        110.0,
+        89.0,
+        634.0,
+        442.0
+      ]
+    }
+  ]
+}

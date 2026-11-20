@@ -1,0 +1,27 @@
+{
+  "model": "YOLO v3（Darknet-53，COCO 官方权重）",
+  "image": "cup1.jpg",
+  "count": 2,
+  "detections": [
+    {
+      "label": "cup",
+      "confidence": 0.999559,
+      "box": [
+        84.0,
+        25.0,
+        222.0,
+        131.0
+      ]
+    },
+    {
+      "label": "dining table",
+      "confidence": 0.590385,
+      "box": [
+        25.0,
+        22.0,
+        254.0,
+        164.0
+      ]
+    }
+  ]
+}

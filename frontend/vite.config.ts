@@ -1,7 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig({
+// 生产构建由后端在 /app 下统一托管；开发环境仍使用根路径。
+export default defineConfig(({ mode }) => ({
+  base: mode === "production" ? "/app/" : "/",
   plugins: [react()],
   server: {
     port: 5173,
@@ -16,4 +18,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

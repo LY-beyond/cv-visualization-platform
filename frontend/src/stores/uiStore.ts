@@ -28,7 +28,8 @@ applyTheme(initialTheme);
 
 export const useUiStore = create<UiState>((set, get) => ({
   theme: initialTheme,
-  sidebarOpen: true,
+  // 小屏默认收起导航，避免首屏被侧边栏遮挡
+  sidebarOpen: window.innerWidth >= 1024,
   toggleTheme: () => {
     const next: ThemeMode = get().theme === "dark" ? "light" : "dark";
     window.localStorage.setItem(STORAGE_KEY, next);

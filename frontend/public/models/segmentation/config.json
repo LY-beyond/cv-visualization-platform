@@ -1,0 +1,17 @@
+{
+  "modelPath": "segformer.onnx",
+  "labelsPath": "labels.json",
+  "inputSize": [512, 512],
+  "layout": "NCHW",
+  "mean": [0.485, 0.456, 0.406],
+  "std": [0.229, 0.224, 0.225],
+  "scoreThreshold": 0,
+  "iouThreshold": 0,
+  "outputFormat": "segmentation",
+  "tasks": ["segmentation"],
+  "palette": [
+    "#000000", "#800000", "#008000", "#808000", "#000080", "#800080", "#008080", "#c0c0c0",
+    "#ff0000", "#00ff00", "#ffff00", "#0000ff", "#ff00ff", "#00ffff", "#ffffff", "#808080",
+    "#ff8000", "#80ff00", "#0080ff", "#ff0080", "#8000ff"
+  ]
+}

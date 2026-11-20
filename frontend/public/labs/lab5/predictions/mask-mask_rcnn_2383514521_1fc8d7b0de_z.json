@@ -1,0 +1,51 @@
+{
+  "model": "Mask R-CNN（ResNet-101-FPN，COCO 官方权重）",
+  "image": "mask_rcnn_2383514521_1fc8d7b0de_z.jpg",
+  "count": 4,
+  "detections": [
+    {
+      "label": "giraffe",
+      "confidence": 0.999535,
+      "box": [
+        184,
+        102,
+        272,
+        350
+      ],
+      "mask_pixels": 10459
+    },
+    {
+      "label": "zebra",
+      "confidence": 0.999501,
+      "box": [
+        267,
+        231,
+        435,
+        366
+      ],
+      "mask_pixels": 9481
+    },
+    {
+      "label": "giraffe",
+      "confidence": 0.989071,
+      "box": [
+        0,
+        191,
+        24,
+        284
+      ],
+      "mask_pixels": 1380
+    },
+    {
+      "label": "cow",
+      "confidence": 0.903272,
+      "box": [
+        134,
+        164,
+        174,
+        196
+      ],
+      "mask_pixels": 870
+    }
+  ]
+}

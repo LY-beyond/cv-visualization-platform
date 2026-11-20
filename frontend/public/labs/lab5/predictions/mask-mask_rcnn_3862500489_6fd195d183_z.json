@@ -1,0 +1,106 @@
+{
+  "model": "Mask R-CNN（ResNet-101-FPN，COCO 官方权重）",
+  "image": "mask_rcnn_3862500489_6fd195d183_z.jpg",
+  "count": 9,
+  "detections": [
+    {
+      "label": "person",
+      "confidence": 0.999872,
+      "box": [
+        152,
+        176,
+        309,
+        481
+      ],
+      "mask_pixels": 18351
+    },
+    {
+      "label": "person",
+      "confidence": 0.999554,
+      "box": [
+        80,
+        116,
+        114,
+        191
+      ],
+      "mask_pixels": 1081
+    },
+    {
+      "label": "tennis racket",
+      "confidence": 0.998992,
+      "box": [
+        74,
+        333,
+        201,
+        399
+      ],
+      "mask_pixels": 4315
+    },
+    {
+      "label": "person",
+      "confidence": 0.994633,
+      "box": [
+        210,
+        116,
+        249,
+        221
+      ],
+      "mask_pixels": 2224
+    },
+    {
+      "label": "tennis racket",
+      "confidence": 0.977504,
+      "box": [
+        72,
+        150,
+        88,
+        168
+      ],
+      "mask_pixels": 158
+    },
+    {
+      "label": "bus",
+      "confidence": 0.961725,
+      "box": [
+        2,
+        91,
+        59,
+        152
+      ],
+      "mask_pixels": 2936
+    },
+    {
+      "label": "car",
+      "confidence": 0.945729,
+      "box": [
+        161,
+        116,
+        199,
+        147
+      ],
+      "mask_pixels": 902
+    },
+    {
+      "label": "person",
+      "confidence": 0.882821,
+      "box": [
+        237,
+        113,
+        254,
+        143
+      ],
+      "mask_pixels": 261
+    },
+    {
+      "label": "person",
+      "confidence": 0.882645,
+      "box": [
+        317,
+        101,
+        339,
+        141
+      ],
+      "mask_pixels": 495
+    }
+  ]
+}

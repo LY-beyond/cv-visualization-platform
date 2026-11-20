@@ -7,9 +7,39 @@
 from typing import Any
 
 from app.models.base import BaseModelHandler
+from app.models.bow import BoWHandler
+from app.models.catalog import LATEST_MODELS
+from app.models.kmeans import KMeansHandler
+from app.models.lenet5 import LeNet5Handler
+from app.models.modern_backbones import MODERN_TRAINABLE, ModernBackboneHandler
 from app.models.registry import model_registry
+from app.models.svm import SVMHandler
 from app.schemas.common import ParamOption, ParamSpec
-from app.schemas.model import ModelMeta
+from app.schemas.model import MetricEntry, ModelMeta, PreprocessSpec
+
+# ImageNet 标准预处理，供预训练分类模型复用
+_IMAGENET_PREPROCESS = PreprocessSpec(
+    input_size=[224, 224],
+    channel_order="RGB",
+    mean=[0.485, 0.456, 0.406],
+    std=[0.229, 0.224, 0.225],
+    resize="center_crop",
+)
+
+# COCO 80 类，与前端 detection/labels.json 对齐
+_COCO_LABELS = [
+    "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat",
+    "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
+    "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack",
+    "umbrella", "handbag", "tie", "suitcase", "frisbee", "skis", "snowboard", "sports ball",
+    "kite", "baseball bat", "baseball glove", "skateboard", "surfboard", "tennis racket",
+    "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl", "banana", "apple",
+    "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake", "chair",
+    "couch", "potted plant", "bed", "dining table", "toilet", "tv", "laptop", "mouse",
+    "remote", "keyboard", "cell phone", "microwave", "oven", "toaster", "sink",
+    "refrigerator", "book", "clock", "vase", "scissors", "teddy bear", "hair drier",
+    "toothbrush",
+]
 
 
 class PlaceholderModel(BaseModelHandler):
@@ -47,6 +77,7 @@ _MODELS = [
             _slider("k", "簇数 K", 8, 2, 24),
             _slider("max_iter", "最大迭代轮数", 20, 1, 100),
         ],
+        implemented=True,
     ),
     ModelMeta(
         id="svm",
@@ -69,6 +100,7 @@ _MODELS = [
             ),
             _slider("c", "惩罚系数 C", 1.0, 0.01, 100, 0.01),
         ],
+        implemented=True,
     ),
     ModelMeta(
         id="bow",
@@ -80,8 +112,9 @@ _MODELS = [
         params="词典规模 × 特征维度",
         pros=["流程完整呈现传统分类范式", "可解释性强"],
         cons=["词典构建耗时", "丢失空间信息"],
-        datasets=["objects_subset"],
+        datasets=["mnist_subset", "objects_subset"],
         hyperparams=[_slider("vocab_size", "词典规模", 64, 16, 256)],
+        implemented=True,
     ),
     ModelMeta(
         id="lenet5",
@@ -102,6 +135,19 @@ _MODELS = [
             _slider("lr", "学习率", 0.001, 0.0001, 0.01, 0.0001),
             _slider("batch_size", "批大小", 32, 8, 128),
         ],
+        weight_path="lenet-mnist/model.onnx",
+        preprocess=PreprocessSpec(
+            input_size=[28, 28],
+            channel_order="RGB",
+            mean=[0.0],
+            std=[1.0],
+            resize="stretch",
+        ),
+        labels=[str(i) for i in range(10)],
+        metrics=[
+            MetricEntry(name="测试准确率", value=0.9812, note="实验三教师模型，9812/10000"),
+            MetricEntry(name="参数量", value=61706, note="Keras 教师模型统计"),
+        ],
         implemented=True,
     ),
     ModelMeta(
@@ -118,6 +164,8 @@ _MODELS = [
         cons=["参数量大", "普通 CPU 推理仍较慢"],
         datasets=["objects_subset"],
         weight_path="alexnet/model.pt",
+        preprocess=_IMAGENET_PREPROCESS,
+        metrics=[MetricEntry(name="Top-1 准确率", value=0.568, note="ImageNet-1k 验证集")],
     ),
     ModelMeta(
         id="vgg16",
@@ -133,6 +181,8 @@ _MODELS = [
         cons=["参数多、计算量大"],
         datasets=["objects_subset"],
         weight_path="vgg16/model.pt",
+        preprocess=_IMAGENET_PREPROCESS,
+        metrics=[MetricEntry(name="Top-1 准确率", value=0.713, note="ImageNet-1k 验证集")],
     ),
     ModelMeta(
         id="resnet50",
@@ -148,6 +198,8 @@ _MODELS = [
         cons=["结构讲解需要残差块铺垫"],
         datasets=["objects_subset"],
         weight_path="resnet50/model.pt",
+        preprocess=_IMAGENET_PREPROCESS,
+        metrics=[MetricEntry(name="Top-1 准确率", value=0.761, note="ImageNet-1k 验证集")],
     ),
     ModelMeta(
         id="yolo_v3",
@@ -167,6 +219,79 @@ _MODELS = [
             _slider("nms_iou", "NMS IoU 阈值", 0.45, 0.1, 0.9, 0.05),
         ],
         weight_path="yolo_v3/model.pt",
+        preprocess=PreprocessSpec(
+            input_size=[416, 416],
+            channel_order="RGB",
+            mean=[0.0, 0.0, 0.0],
+            std=[1.0, 1.0, 1.0],
+            resize="letterbox",
+        ),
+        labels=_COCO_LABELS,
+        metrics=[
+            MetricEntry(name="mAP@0.5", value=0.579, note="COCO val2017"),
+            MetricEntry(name="CPU 单图耗时", value=0.27, note="实验五实测（官方 COCO 权重，s）"),
+            MetricEntry(name="dog 检测置信度", value=0.9996, note="实验五 dog-cycle-car 推理结果"),
+        ],
+    ),
+    ModelMeta(
+        id="faster_rcnn",
+        name="Faster R-CNN",
+        chapter="ch5",
+        task="检测",
+        level="pretrained",
+        year=2015,
+        innovation="用 RPN 直接生成候选框，与检测头共享卷积特征，首次实现端到端两阶段检测。",
+        params="41,808,406（ResNet-50-FPN）",
+        structure_note="ResNet-50 + FPN（P2–P5）+ RPN（Anchor）+ RoIAlign + 分类/回归双头",
+        pros=["定位与分类精细", "RoIAlign 消除量化误差", "对密集小目标更稳"],
+        cons=["两阶段串行，速度慢", "显存与算力开销大"],
+        datasets=["detection_scene"],
+        hyperparams=[
+            _slider("score_threshold", "得分阈值", 0.7, 0.1, 0.95, 0.05),
+            _slider("nms_iou", "NMS IoU 阈值", 0.5, 0.1, 0.9, 0.05),
+        ],
+        preprocess=PreprocessSpec(
+            input_size=[800, 800],
+            channel_order="RGB",
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225],
+            resize="letterbox",
+        ),
+        labels=_COCO_LABELS,
+        metrics=[
+            MetricEntry(name="CPU 单图耗时", value=1.37, note="实验五实测（官方 COCO 权重，s）"),
+            MetricEntry(name="dog 检测置信度", value=0.9945, note="实验五 dog-cycle-car 推理结果"),
+        ],
+    ),
+    ModelMeta(
+        id="mask_rcnn",
+        name="Mask R-CNN",
+        chapter="ch5",
+        task="实例分割",
+        level="pretrained",
+        year=2017,
+        innovation="在 Faster R-CNN 上并联 mask 分支，每个 RoI 输出 28×28 掩膜，同时完成检测与实例分割。",
+        params="64,158,584（ResNet-101-FPN）",
+        structure_note="ResNet-101 + FPN + RPN + RoIAlign + 分类/回归/mask 三头（mini-mask 训练）",
+        pros=["像素级实例掩膜", "检测与分割共享特征", "可区分同类不同实例"],
+        cons=["速度最慢", "掩膜标注成本高"],
+        datasets=["detection_scene"],
+        hyperparams=[
+            _slider("score_threshold", "得分阈值", 0.7, 0.1, 0.95, 0.05),
+            _slider("mask_threshold", "掩膜二值化阈值", 0.5, 0.1, 0.9, 0.05),
+        ],
+        preprocess=PreprocessSpec(
+            input_size=[800, 800],
+            channel_order="RGB",
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225],
+            resize="letterbox",
+        ),
+        labels=_COCO_LABELS,
+        metrics=[
+            MetricEntry(name="CPU 单图耗时", value=2.7, note="实验五实测（官方 COCO 权重，s）"),
+            MetricEntry(name="街景实例数", value=33, note="实验五 mask_rcnn_12283150 推理结果"),
+        ],
     ),
     ModelMeta(
         id="facenet",
@@ -183,6 +308,14 @@ _MODELS = [
         datasets=["biometric_samples"],
         hyperparams=[_slider("threshold", "匹配距离阈值", 0.8, 0.2, 1.5, 0.01)],
         weight_path="facenet/model.pt",
+        preprocess=PreprocessSpec(
+            input_size=[160, 160],
+            channel_order="RGB",
+            mean=[0.5, 0.5, 0.5],
+            std=[0.5, 0.5, 0.5],
+            resize="center_crop",
+        ),
+        metrics=[MetricEntry(name="LFW 验证准确率", value=0.9963, note="6000 对人脸验证")],
     ),
     ModelMeta(
         id="vit_base",
@@ -197,8 +330,23 @@ _MODELS = [
         pros=["全局建模能力强", "易于多模态扩展"],
         cons=["需要大数据预训练", "计算与显存开销大"],
         datasets=["objects_subset"],
+        preprocess=_IMAGENET_PREPROCESS,
     ),
 ]
 
+# 2022–2025 年最新视觉模型：以模型卡形式登记，提供论文与官方代码入口
+_MODELS.extend(LATEST_MODELS)
+_MODELS.extend(MODERN_TRAINABLE)
+
+# 已实现算法的模型：其余仍使用占位实现，前端依据 implemented 字段提示“待接入”
+_IMPLEMENTED = {
+    "lenet5": LeNet5Handler,
+    "kmeans": KMeansHandler,
+    "svm": SVMHandler,
+    "bow": BoWHandler,
+}
+_IMPLEMENTED.update({meta.id: ModernBackboneHandler for meta in MODERN_TRAINABLE})
+
 for _meta in _MODELS:
-    model_registry.register(PlaceholderModel(_meta))
+    _handler = _IMPLEMENTED.get(_meta.id, PlaceholderModel)
+    model_registry.register(_handler(_meta))

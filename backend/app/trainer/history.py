@@ -7,9 +7,15 @@ from app.core.paths import result_dir
 
 
 def save_history(task_id: str, metrics: List[Dict[str, Any]], evaluation: Dict[str, Any]) -> None:
-    path = result_dir(task_id) / "history.json"
+    directory = result_dir(task_id)
     payload = {"task_id": task_id, "metrics": metrics, "evaluation": evaluation}
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    (directory / "history.json").write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    if evaluation:
+        (directory / "evaluation.json").write_text(
+            json.dumps(evaluation, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
 
 
 def load_history(task_id: str) -> Dict[str, Any]:

@@ -59,6 +59,20 @@ export interface SampleList {
 
 export type ModelLevel = "trainable" | "pretrained" | "structure";
 
+export interface ModelPreprocess {
+  input_size: number[];
+  channel_order: "RGB" | "BGR";
+  mean: number[];
+  std: number[];
+  resize: "letterbox" | "stretch" | "center_crop";
+}
+
+export interface ModelMetric {
+  name: string;
+  value: number;
+  note: string;
+}
+
 export interface ModelMeta {
   id: string;
   name: string;
@@ -67,6 +81,9 @@ export interface ModelMeta {
   task: string;
   level: ModelLevel;
   year?: number | null;
+  venue?: string | null;
+  paper_url?: string | null;
+  code_url?: string | null;
   innovation: string;
   params: string;
   structure_note: string;
@@ -75,6 +92,9 @@ export interface ModelMeta {
   datasets: string[];
   hyperparams: ParamSpec[];
   weight_path?: string | null;
+  preprocess?: ModelPreprocess | null;
+  labels?: string[];
+  metrics?: ModelMetric[];
   implemented: boolean;
 }
 
@@ -158,4 +178,16 @@ export interface EvaluationResult {
   class_names: string[];
   error_samples: ErrorSample[];
   embedding: Record<string, unknown>[];
+}
+
+export interface ComparisonItem {
+  task_id: string;
+  model_id: string;
+  model_name: string;
+  params: string;
+  accuracy?: number | null;
+  top5_accuracy?: number | null;
+  confusion_matrix: number[][];
+  class_names: string[];
+  finished_at?: string | null;
 }
